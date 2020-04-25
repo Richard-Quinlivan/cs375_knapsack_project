@@ -20,14 +20,17 @@ int knapsack_rec(int values[], int weights[], int capacity, int index, int *** t
 int main(){
 	int values [] = {1,2,3,4,5};
 	int weights [] = {1,1,2,2,3};
-	int capacity = 2;
+	int capacity = 4;
 	int numItems = 5;
 	int *** table;
 	int ** t;
 	table = &t;
 	(*table) = new int *[numItems];
 	for(int i = 0; i < numItems; i++){
-		(*table)[i] = new int [capacity+1];
+		(*table)[i] = new int[capacity+1];
+		/* table is of size [numItems][capacity+1] so that it can account for all states of the problem.
+		the table's first index is the number of the item that you are deciding on, the second index is the amount
+		of capacity left in the knapsack, these together are unique to each state and cover all possible states */
 	}
 	for(int i = 0; i < numItems; i++){
 		for(int j = 0; j < capacity+1; j++){
@@ -35,22 +38,9 @@ int main(){
 		}
 	}
 
-	for(int i = 0; i < numItems; i++){
-		for(int j = 0; j < capacity+1; j++){
-			cout << (*table)[i][j] << ", ";
-		}
-		cout << endl;
-	}
-	cout << endl;
 	int soln = knapsack_rec(values, weights, capacity, numItems-1, table);
 
-	for(int i = 0; i < numItems; i++){
-		for(int j = 0; j < capacity+1; j++){
-			cout << (*table)[i][j] << ", ";
-		}
-		cout << endl;
-	}
-	cout << endl;
+
 
 	cout << soln << endl;
 }
