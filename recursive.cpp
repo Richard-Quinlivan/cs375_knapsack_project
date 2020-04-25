@@ -4,6 +4,7 @@
 using namespace std;
 
 int knapsack_rec(int values[], int weights[], int capacity, int index, int *** table){
+	/* this is the recurive solution to the knapsack problem with top down memorization */
 	if(index < 0) return 0;
 	if((*table)[index][capacity] != -1) return (*table)[index][capacity];
 	if(weights[index] > capacity){
@@ -17,12 +18,13 @@ int knapsack_rec(int values[], int weights[], int capacity, int index, int *** t
 	return (*table)[index][capacity];
 }
 
-int main(){
+int main(){ //David you can rename this function so that your driver code doesn't clash with it
 	int values [] = {1,2,3,4,5};
 	int weights [] = {1,1,2,2,3};
 	int capacity = 4;
 	int numItems = 5;
-	int *** table;
+	//the above variables are sample input, they will be what you generate
+	int *** table;//triple pointer so i can reference the table it later (same as how we did 220 chess board stuff)
 	int ** t;
 	table = &t;
 	(*table) = new int *[numItems];
@@ -34,11 +36,12 @@ int main(){
 	}
 	for(int i = 0; i < numItems; i++){
 		for(int j = 0; j < capacity+1; j++){
-			(*table)[i][j] = -1;
+			(*table)[i][j] = -1; // intitialize the table to all -1
 		}
 	}
 
 	int soln = knapsack_rec(values, weights, capacity, numItems-1, table);
+	// this is the number answer to the knapsack problem, can use this and the table to get the exact items
 
 
 
