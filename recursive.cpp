@@ -6,7 +6,7 @@
 using namespace std;
 
 int knapsack_rec(int values[], int weights[], int capacity, int index, int ** table){
-	/* this is the recurive solution to the knapsack problem with top down memorization */
+	/* this is the recurive solution to the knapsack problem with top down memoization */
 	if(index < 0) return 0;
 	if(table[index][capacity] != -1) return table[index][capacity];
 	if(weights[index] > capacity){
@@ -18,6 +18,19 @@ int knapsack_rec(int values[], int weights[], int capacity, int index, int ** ta
 	if(with > without) table[index][capacity] = with;
 	else table[index][capacity] = without;
 	return table[index][capacity];
+}
+
+
+int brute_force_rec(int values[], int weights[], int capacity, int index){
+	/* this is the recurive solution to the knapsack problem with no memoization */
+	if(index < 0) return 0;
+	if(weights[index] > capacity){
+		return brute_force_rec(values, weights, capacity, index-1);
+	}
+	int with = values[index] + brute_force_rec(values, weights, capacity-weights[index], index-1);
+	int without = brute_force_rec(values, weights, capacity, index-1);
+	if(with > without) return with;
+	return without;
 }
 
 int debug(){ //David you can rename this function so that your driver code doesn't clash with it
@@ -43,8 +56,9 @@ int debug(){ //David you can rename this function so that your driver code doesn
 	int soln = knapsack_rec(values, weights, capacity, numItems-1, table);
 	// this is the number answer to the knapsack problem, can use this and the table to get the exact items
 
-
+	int soln2 = brute_force_rec(values, weights, capacity, numItems-1);
 
 	cout << soln << endl;
+	cout << soln2 << endl;
 	return 0;
 }
